@@ -84,11 +84,11 @@ h1 {
 }
 
 
-/*hide class
+/*hide class*/
 
 .hide {
     display: none !important;
-}*/
+}
 
 
 /*scoreboard*/
@@ -136,5 +136,4 @@ h1 {
     padding: 20px;
     border: 3px outset rgb(60, 175, 179);
     border-radius: 15px;
-    display: none;
 }

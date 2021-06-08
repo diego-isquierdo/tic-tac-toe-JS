@@ -28,9 +28,10 @@ boxes.forEach(box => {
             }
 
             let fieldGame = getFieldGame();
-            let Winner = checkWinner(fieldGame);
-            if (Winner != undefined) {
-                console.log(Winner + " é campeão!");
+            let winner = checkWinner(fieldGame);
+
+            if (winner != undefined) {
+                declareWinner();
             }
         }
     })
@@ -87,7 +88,7 @@ function checkWinner(fieldGame) {
                     lineCount++;
                 }
                 if (lineCount == 3) {
-                    return lineWin;
+                    declareWinner(lineWin);
                 }
                 if (((i == 1) && l == 1) || ((i == 0 && l == 2) || (i == 2 && l == 0))) {
                     if (crossWinRight != fieldGame[i][l].className) {
@@ -99,7 +100,7 @@ function checkWinner(fieldGame) {
                     }
                 }
                 if (crossCountRigth == 3) {
-                    return crossWinRight;
+                    declareWinner(crossWinRight);
                 }
                 if ((i == l)) {
                     if (crossWinLeft != fieldGame[i][l].className) {
@@ -111,7 +112,7 @@ function checkWinner(fieldGame) {
                     }
                 }
                 if (crossCountLeft == 3) {
-                    return crossWinLeft;
+                    declareWinner(crossWinLeft);
                 }
             } else {
                 noWinCount++;
@@ -126,13 +127,49 @@ function checkWinner(fieldGame) {
                     columnCount++;
                 }
                 if (columnCount == 3) {
-                    return columnWin;
+                    declareWinner(columnWin);
                 }
             }
         }
 
     }
     if (noWinCount == 0) {
-        console.log("Deu Velha!");
+        declareWinner("Deu Velha!");
     }
+}
+
+function declareWinner(winner) {
+    let scoreboardX = document.querySelector("#scoreboard-1");
+    let scoreboardY = document.querySelector("#scoreboard-2");
+    let msg = '';
+
+    if (winner == 'x') {
+        scoreboardX.textContent = parseInt(scoreboardX.textContent) + 1;
+        msg = "Jogador 1 Venceu";
+    } else if (winner == 'o') {
+        scoreboardY.textContent = parseInt(scoreboardY.textContent) + 1;
+        msg = "Jogador 2 Venceu";
+    } else {
+        msg = "Deu velha!"
+    }
+
+    //show message
+    messageText.innerHTML = msg;
+    messageContainer.classList.remove("hide");
+
+    //hide message
+    setTimeout(() => {
+        messageContainer.classList.add("hide");
+    }, 2000);
+
+    //reset game
+    player1 = 0;
+    player2 = 0;
+
+    //clear field
+    let boxesToRemove = document.querySelectorAll(".box div");
+
+    boxesToRemove.forEach(box => {
+        box.parentNode.removeChild(box);
+    });
 }
