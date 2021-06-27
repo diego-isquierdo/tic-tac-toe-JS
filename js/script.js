@@ -23,6 +23,13 @@ boxes.forEach(box => {
 
             if (player1 == player2) {
                 player1++;
+
+                //AI Player
+                if (secondPlayer == 'ai-player') {
+                    computerPlay();
+                    player2++;
+                }
+
             } else {
                 player2++;
             }
@@ -34,6 +41,22 @@ boxes.forEach(box => {
                 declareWinner();
             }
         }
+    })
+});
+
+
+//2 players or IA
+buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        secondPlayer = btn.getAttribute('id');
+        console.log(secondPlayer);
+        buttons.forEach(button => {
+            button.style.display = 'none';
+        });
+        setTimeout(() => {
+            let container = document.querySelector("#container");
+            container.classList.remove("hide");
+        }, 500);
     })
 });
 
@@ -172,4 +195,29 @@ function declareWinner(winner) {
     boxesToRemove.forEach(box => {
         box.parentNode.removeChild(box);
     });
+}
+
+function computerPlay() {
+    let clonePlayer2 = o.cloneNode(true);
+    counter = 0;
+    filled = 0;
+
+    for (let i = 0; i < boxes.length; i++) {
+
+        let randomNumber = Math.floor(Math.random() * 5);
+        console.log(randomNumber)
+        if (boxes[i].childNodes[0] == undefined) {
+            if (randomNumber <= 1) {
+                boxes[i].appendChild(clonePlayer2);
+                counter++;
+                break;
+            } else {
+                filled++;
+            }
+        }
+    }
+
+    if (counter == 0 && filled < 9) {
+        computerPlay();
+    }
 }
